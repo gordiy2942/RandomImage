@@ -2,14 +2,16 @@ package com.example.randomimage
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.commit
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView.Orientation
 import androidx.recyclerview.widget.RecyclerView.VERTICAL
 import com.example.randomimage.databinding.ActivityMainBinding
 import com.example.randomimage.newtwork.NewtworkClient
 import com.squareup.picasso.Picasso
+import okhttp3.internal.notify
 
-class MainActivity: AppCompatActivity() {
+class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
@@ -19,30 +21,12 @@ class MainActivity: AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val data: List<String> = listOf(
-            "String #1",
-            "new string",
-            "other string",
-            "cat",
-            "dog",
-            "sunshine",
-        )
 
-        binding.myList.layoutManager = LinearLayoutManager(this@MainActivity)
-        val myAdapter = MyListAdapter()
-        binding.myList.adapter = myAdapter
-
-        myAdapter.setList(data)
-
-        val networkClient = NewtworkClient()
-        networkClient.initClient()
-
-
-        networkClient.getDogImage() { imageAddress ->
-            Picasso.get()
-                .load(imageAddress)
-                .into(binding.myDogImage)
-
+        supportFragmentManager.commit {
+            setReorderingAllowed(true)
+            add(R.id.root_container, MyNewFragment())
         }
+
+
     }
 }

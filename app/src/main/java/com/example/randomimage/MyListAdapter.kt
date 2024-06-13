@@ -6,12 +6,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.randomimage.databinding.ItemListBinding
+import com.squareup.picasso.Picasso
 
 class MyListAdapter: RecyclerView.Adapter<MyListAdapter.MyViewHolder>() {
 
-    private var myData: List<String> = listOf()
+    private var myData: List<DogData> = listOf()
 
-    fun setList(list: List<String>) {
+    fun setList(list: List<DogData>) {
         myData = list
     }
 
@@ -31,8 +32,12 @@ class MyListAdapter: RecyclerView.Adapter<MyListAdapter.MyViewHolder>() {
     class MyViewHolder(
         private val binding: ItemListBinding
     ): ViewHolder(binding.root) {
-        fun bind(data: String) {
-            binding.myTextView.text = data
+        fun bind(data: DogData) {
+            binding.myTextView.text = data.myText
+
+            Picasso.get()
+                .load(data.imageUrl)
+                .into(binding.listImage)
         }
     }
 }
