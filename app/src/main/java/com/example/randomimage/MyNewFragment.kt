@@ -10,7 +10,9 @@ import com.example.randomimage.databinding.ActivityMainBinding
 import com.example.randomimage.databinding.FragmentMyNewBinding
 import com.example.randomimage.newtwork.NewtworkClient
 
-class MyNewFragment : Fragment(){
+class MyNewFragment(
+    private val listener: Navigation
+) : Fragment(){
 
     private lateinit var binding: FragmentMyNewBinding
     override fun onCreateView(
@@ -24,9 +26,7 @@ class MyNewFragment : Fragment(){
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.nextButton.setOnClickListener {
 
-        }
 
         binding.myList.layoutManager = LinearLayoutManager(this@MyNewFragment.requireContext())
         val myAdapter = MyListAdapter()
@@ -40,21 +40,19 @@ class MyNewFragment : Fragment(){
 
         networkClient.getDogImage() { imageAddress ->
             val data: List<DogData> = listOf(
-                DogData(myText = "String #1", imageAddress),
-                DogData(myText = "new string", imageAddress),
-                DogData(myText = "other string", imageAddress),
-                DogData(myText = "cat", imageAddress),
-                DogData(myText = "dog", imageAddress),
-                DogData(myText = "sunshine", imageAddress),
+                DogData(myText = "хаски", imageAddress),
+                DogData(myText = "бульдог", imageAddress),
+                DogData(myText = "овчарка", imageAddress),
+                DogData(myText = "лабрадор", imageAddress),
+                DogData(myText = "долматинец", imageAddress),
+                DogData(myText = "чихуахуа", imageAddress),
             )
             myAdapter.setList(data)
             myAdapter.notifyDataSetChanged()
 
-
-
+            binding.nextButton.setOnClickListener {
+                listener.navigateToSecondFragment(imageUrl = imageAddress)
+            }
         }
-
-
     }
-
 }

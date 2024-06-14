@@ -10,8 +10,9 @@ import com.example.randomimage.databinding.ActivityMainBinding
 import com.example.randomimage.newtwork.NewtworkClient
 import com.squareup.picasso.Picasso
 import okhttp3.internal.notify
+import retrofit2.http.Url
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), Navigation {
 
     private lateinit var binding: ActivityMainBinding
 
@@ -24,9 +25,19 @@ class MainActivity : AppCompatActivity() {
 
         supportFragmentManager.commit {
             setReorderingAllowed(true)
-            add(R.id.root_container, MyNewFragment())
+            add(R.id.root_container, MyNewFragment(this@MainActivity))
+            addToBackStack("")
+
         }
 
 
+    }
+
+    override fun navigateToSecondFragment(imageUrl: String) {
+        supportFragmentManager.commit {
+            setReorderingAllowed(true)
+            add(R.id.root_container, SecondFragment(imageUrl))
+            addToBackStack("")
+        }
     }
 }
